@@ -8,10 +8,11 @@ global zbarriers
 global zFinal
 global mass
 global dragcofficent
+glo
 
 solx=0; %x initial position 
-R = 60; % x final position
-zFinal=0; % y final position
+%R = 60; % x final position
+%zFinal=0; % y final position
 
 prompt=("enter the C ,drag cofficent, of the object : \n");
 dragcofficent=input(prompt);% C
@@ -21,10 +22,18 @@ mass=input(prompt);% mass of our projectile
 
 prompt=("enter the z initial location: \n");
 solz=input(prompt);%y initial position
+
 prompt=("enter the x location of the barrier or 0 if their is no barriers : \n");
 xbarriers=input(prompt);
+
 prompt=("enter the hight of the barrier or 0 if their is no barriers : \n");
 zbarriers=input(prompt);
+
+prompt=("enter X final position : \n");
+R=input(prompt);
+
+prompt=("enter Y final position : \n");
+zFinal=input(prompt);
 
 toggle=true;
 vs=0; %start value for the initial velocity magnitude
@@ -45,7 +54,7 @@ while toggle
         
         y=[solx;solvx;solz;solvz];
         Opt = odeset('Events', @Event); 
-        [t,sol]=ode45(@projectile,(0:0.01:100),y,Opt);
+        [t,sol]=ode45(@projectilefun,(0:0.01:100),y,Opt);
         
         difference = sol(end,1)-R; %to calculate the difference between the final x position and the desired range
         
@@ -89,6 +98,8 @@ ylabel('z position');
 disp("Reach time is ");
 disp(t(end));
 
+%function to solve the 4 ODE of the accelration to get the x and y
+%positions
 function [xp] = projectilefun(t,sol)
 global dragcofficent
 global mass

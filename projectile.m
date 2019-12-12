@@ -8,10 +8,10 @@ global zbarriers
 global zFinal
 global mass
 global dragcofficent
+global gravity
 
 solx=0; %x initial position 
-%R = 60; % x final position
-%zFinal=0; % y final position
+gravity=9.81;
 
 prompt=("enter the C ,drag cofficent, of the object : \n");
 dragcofficent=input(prompt);% C
@@ -23,16 +23,16 @@ prompt=("enter the z initial location: \n");
 solz=input(prompt);%y initial position
 
 prompt=("enter the x location of the barrier or 0 if their is no barriers : \n");
-xbarriers=input(prompt);
+xbarriers=input(prompt); %x loctation of the barrier
 
 prompt=("enter the hight of the barrier or 0 if their is no barriers : \n");
-zbarriers=input(prompt);
+zbarriers=input(prompt); % y location of the barrier 
 
 prompt=("enter X final position : \n");
-R=input(prompt);
+R=input(prompt); % projectile final X position
 
 prompt=("enter Y final position : \n");
-zFinal=input(prompt);
+zFinal=input(prompt); % projectile final Y position
 
 toggle=true;
 vs=0; %start value for the initial velocity magnitude
@@ -102,11 +102,12 @@ disp(t(end));
 function [xp] = projectilefun(t,sol)
 global dragcofficent
 global mass
+global gravity
     xp=zeros(4,1);
     xp(1)=sol(2);    % dx/dt // velocity in x
     xp(2)=(-dragcofficent/mass)*sqrt( ((sol(2))^2) + ((sol(4))^2) )*sol(2);   %dvx/dt //acceleration in x
     xp(3)=sol(4);     % dz/dt //velocity in y
-    xp(4)=-9.81-(dragcofficent/mass)*sqrt( ((sol(2))^2) + ((sol(4))^2) )*sol(4); %dvz/dt // acceleration in y
+    xp(4)=-gravity-(dragcofficent/mass)*sqrt( ((sol(2))^2) + ((sol(4))^2) )*sol(4); %dvz/dt // acceleration in y
 end
 
 
